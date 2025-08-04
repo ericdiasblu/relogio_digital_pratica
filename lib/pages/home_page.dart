@@ -3,6 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:relogio_digital/builders/stream_notifier_builder.dart';
 import 'package:relogio_digital/controllers/stream_notifier_imp.dart';
+import 'package:relogio_digital/widgets/buildBook.dart';
+import 'package:relogio_digital/widgets/buildClock.dart';
+import 'package:relogio_digital/widgets/buildShelf.dart';
+import 'package:relogio_digital/widgets/buildWindow.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -38,113 +42,38 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: Column(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.black, width: 2),
-              ),
-              width: 250,
-              height: 70,
-              child: Center(
-                child: StreamNotifierBuilder<DateTime>(
-                  streamNotifier: clockNotifier,
-                  builder: (context, dateTime) {
-                    return Text(
-                      '${dateTime.hour.toString().padLeft(2, '0')}:'
-                      '${dateTime.minute.toString().padLeft(2, '0')}:'
-                      '${dateTime.second.toString().padLeft(2, '0')}',
-                      style: TextStyle(
-                        fontSize: 48,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    );
-                  },
-                  // Opcional: só reconstrói se mudou o segundo
-                  buildWhen:
-                      (previous, current) => previous.second != current.second,
-                  // Opcional: log quando muda
-                  listen: (context, dateTime) {
-                    print('Horário atualizado: $dateTime');
-                  },
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Container(
-                width: double.infinity,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 92, 63, 51),
-                  border: Border.all(color: Colors.black, width: 2),
-                ),
-              ),
-            ),
+            SizedBox(height: 80),
+            buildWindow(),
+            SizedBox(height: 10),
+            buildEstante(),
+            buildClock(clockNotifier: clockNotifier),
+            buildEstante(),
             SizedBox(
               height: 120,
-              width: double.infinity,
               child: Column(
                 children: [
                   Row(
                     children: [
                       SizedBox(width: 10),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3),
-                          color: Colors.blueAccent,
-                          border: Border.all(color: Colors.black, width: 2),
-                        ),
-                        width: 20,
-                        height: 80,
+                      buildBook(
+                        primaryColor: Colors.blueAccent,
+                        secondaryColor: Colors.yellow,
                       ),
-                      Container(
-                        width: 20,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: Colors.yellowAccent,
-                          borderRadius: BorderRadius.circular(3),
-                          border: Border.all(color: Colors.black, width: 2),
-                        ),
+                      buildBook(
+                        primaryColor: Colors.green,
+                        secondaryColor: Colors.orange,
                       ),
-                      Container(
-                        width: 20,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(3),
-                          border: Border.all(color: Colors.black, width: 2),
-                        ),
+                      buildBook(
+                        primaryColor: Colors.purple,
+                        secondaryColor: Colors.pink,
                       ),
-                      Container(
-                        width: 20,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: Colors.pinkAccent,
-                          borderRadius: BorderRadius.circular(3),
-                          border: Border.all(color: Colors.black, width: 2),
-                        ),
-                      ),
-                      Container(
-                        width: 20,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: Colors.orangeAccent,
-                          borderRadius: BorderRadius.circular(3),
-                          border: Border.all(color: Colors.black, width: 2),
-                        ),
+                      buildBook(
+                        primaryColor: const Color.fromARGB(255, 226, 63, 4),
+                        secondaryColor: const Color.fromARGB(255, 209, 6, 125),
                       ),
                     ],
                   ),
-                  Container(
-                    width: double.infinity,
-                    height: 20,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 92, 63, 51),
-                      border: Border.all(color: Colors.black, width: 2),
-                    ),
-                  ),
+                  buildEstante(height: 200),
                 ],
               ),
             ),
